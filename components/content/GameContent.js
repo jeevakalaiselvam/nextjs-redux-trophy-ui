@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { ACHIEVEMENT_SORT_PERCENTAGE_HIGH_LOW } from "../../helpers/filterHelper";
 import { calculateProfileDataForGame } from "../../helpers/profileHelper";
 import AchievementList from "../ui/AchievementList";
 
@@ -58,6 +59,8 @@ export default function GameContent() {
 
   const game = games.length > 0 && games.find((game) => game.id == gameId);
 
+  const { achievements } = game;
+
   const {
     profileLevel,
     totalTrophies,
@@ -72,10 +75,18 @@ export default function GameContent() {
       {game && (
         <FirstRow>
           <TrophyStatus>All Trophies: {game.achievements.length}</TrophyStatus>
-          <SortStatus>Sort by: Decreasing Percentage</SortStatus>
+          <SortStatus>Sort by: Percentage (Low - High)</SortStatus>
         </FirstRow>
       )}
-      <ListContainer>{game && <AchievementList game={game} />}</ListContainer>
+      <ListContainer>
+        {game && (
+          <AchievementList
+            achievements={game.achievements}
+            sortOption={ACHIEVEMENT_SORT_PERCENTAGE_HIGH_LOW}
+            gameName={game.name}
+          />
+        )}
+      </ListContainer>
     </Container>
   );
 }

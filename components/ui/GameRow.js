@@ -51,7 +51,6 @@ const NameWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   padding: 1rem;
-  font-weight: bold;
   height: 100%;
 `;
 
@@ -60,7 +59,8 @@ const Name = styled.div`
   align-items: flex-start;
   height: 50px;
   width: 100%;
-  font-size: 2rem;
+  font-size: 2.25rem;
+  flex: 1;
   padding-top: 1rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -69,13 +69,23 @@ const Name = styled.div`
 
 const Tag = styled.div`
   display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: center;
+`;
+
+const TagInner = styled.div`
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   align-self: flex-start;
-  padding: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-left: 2rem;
+  padding: 0.25rem 1rem;
   border: 2px solid #b5b0b1;
+  font-weight: bold;
 `;
 
 const TrophyWrapper = styled.div`
@@ -214,7 +224,9 @@ export default function GameRow({ game, gameClickHandler }) {
         </ImageWrapper>
         <NameWrapper>
           <Name>{name}</Name>
-          <Tag>PS5</Tag>
+          <Tag>
+            <TagInner>PS5</TagInner>
+          </Tag>
         </NameWrapper>
         {completion == 100 && (
           <TrophyPlatinum>

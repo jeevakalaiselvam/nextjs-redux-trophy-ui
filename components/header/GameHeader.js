@@ -31,7 +31,7 @@ const LeftContainer = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  padding-left: 20rem;
+  padding-left: 25rem;
 `;
 
 const RightContainer = styled.div`
@@ -39,7 +39,7 @@ const RightContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-right: 20rem;
+  padding-right: 10rem;
 `;
 
 const TrophyPlatinum = styled.div`

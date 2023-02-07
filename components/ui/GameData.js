@@ -10,8 +10,8 @@ const Container = styled.div`
 
 const Image = styled.div`
   display: flex;
-  width: 150px;
-  height: 70px;
+  width: 200px;
+  height: 100px;
   background: url("${(props) => props.image}");
   background-repeat: no-repeat;
   background-size: cover;

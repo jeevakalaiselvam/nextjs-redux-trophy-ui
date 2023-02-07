@@ -1,5 +1,5 @@
 import { style } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   getIconForTrophyType,
@@ -20,6 +20,9 @@ const Container = styled.div`
   border-radius: 8px;
   padding: 0rem 2rem;
   cursor: pointer;
+  border: ${(props) =>
+    props.gameHovered ? "1px solid #888592" : "1px solid #88859200"};
+  border-radius: 4px;
 
   &:focus {
     outline: none;
@@ -58,7 +61,6 @@ const Title = styled.div`
   padding: 1rem 1rem;
   align-content: flex-start;
   font-size: 2rem;
-  font-weight: 800;
   justify-content: flex-start;
 `;
 
@@ -69,7 +71,6 @@ const Meta = styled.div`
   flex-direction: column;
   font-size: 2rem;
   min-height: 80px;
-  font-weight: 700;
   justify-content: center;
 `;
 
@@ -77,7 +78,6 @@ const TypeWrapper = styled.div`
   display: flex;
   align-content: center;
   justify-content: flex-start;
-  font-weight: 600;
   height: 30px;
 `;
 
@@ -86,7 +86,6 @@ const RarityWrapper = styled.div`
   align-content: center;
   justify-content: flex-start;
   height: 30px;
-  font-weight: 600;
 `;
 
 const TypeIcon = styled.div`
@@ -190,6 +189,7 @@ const UnlockIcon = styled.div`
   background-repeat: no-repeat;
   align-content: center;
   justify-content: center;
+  opacity: ${(props) => (props.show ? "1" : "0")};
 `;
 
 const Unlocktime = styled.div`
@@ -204,10 +204,8 @@ const Unlocktime = styled.div`
 
 const Divider = styled.div`
   display: flex;
-  padding: 0rem 1rem;
-  width: 2px;
-  flex-direction: column;
-  height: 100%;
+  width: 20px;
+  height: 30px;
   align-content: center;
   justify-content: center;
   color: #707276;
@@ -222,7 +220,7 @@ const DescriptionWrapper = styled.div`
   justify-content: center;
 `;
 
-export default function AchievementCard({ achievement }) {
+export default function AchievementCard({ achievement, gameName }) {
   const {
     name,
     displayName,
@@ -235,13 +233,44 @@ export default function AchievementCard({ achievement }) {
 
   const trophyType = getIconTypeForPercentage(percentage);
 
+  const dateStringInitial = new Date(unlocktime * 1000)
+    .toString()
+    .slice(0, -40);
+  const dateStringEnd = new Date(unlocktime * 1000).toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  const [gameHovered, setGameHovered] = useState(false);
+
+  const mouseEnterHandler = () => {
+    setGameHovered(true);
+  };
+  const mouseLeaveHandler = () => {
+    setGameHovered(false);
+  };
+
   return (
-    <Container>
+    <Container
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseLeaveHandler}
+      gameHovered={gameHovered}
+    >
       <IconWrapper>
         <Icon icon={icon}></Icon>
       </IconWrapper>
       <DataWrapper>
-        <Title>{displayName}</Title>
+        <Title
+          onClick={() => {
+            if (window !== "undefined") {
+              const searchQuery = `${displayName} achievement ${gameName} `;
+              window.open(`https://www.google.com/search?q=${searchQuery}`);
+            }
+          }}
+        >
+          {displayName}
+        </Title>
         <Meta>
           <TypeWrapper>
             <TypeIcon>
@@ -262,24 +291,16 @@ export default function AchievementCard({ achievement }) {
         </Meta>
       </DataWrapper>
       <UnlockTimeWrapper>
-        <UnlockIcon></UnlockIcon>
+        <UnlockIcon show={achieved == 1}></UnlockIcon>
         <Unlocktime>
           {achieved == 1
-            ? `${new Date(unlocktime * 1000)
-                .toString()
-                .slice(0, -40)}, ${new Date(unlocktime * 1000).toLocaleString(
-                "en-US",
-                {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                }
-              )}`
+            ? `${dateStringInitial}, ${
+                dateStringEnd.length == 7 ? `0${dateStringEnd}` : dateStringEnd
+              }`
             : ""}
         </Unlocktime>
       </UnlockTimeWrapper>
       <Divider></Divider>
-      <DescriptionWrapper></DescriptionWrapper>
     </Container>
   );
 }

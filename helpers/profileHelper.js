@@ -14,12 +14,17 @@ export const calculateProfileData = (games) => {
   games &&
     games.length &&
     games.forEach((game) => {
+      let gamePoints = 0;
+      console.log(`-------------- FOR GAME ${game.name}`);
       if (game.completion == 100) {
         platinumTrophies++;
       }
       game &&
         game.achievements &&
         game.achievements.forEach((achievement) => {
+          gamePoints += getPointsForAchievementPercentage(
+            achievement.percentage
+          );
           if (achievement.percentage && achievement.achieved == 1) {
             let pointsForTrophy = getPointsForAchievementPercentage(
               achievement.percentage
@@ -35,6 +40,8 @@ export const calculateProfileData = (games) => {
             }
           }
         });
+
+      console.log("TOTAL POINTS", gamePoints);
     });
 
   profileLevel = calculateProfileLevelFromPoints(totalPoints).level;

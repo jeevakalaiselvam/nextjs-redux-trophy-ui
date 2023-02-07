@@ -28,7 +28,7 @@ export default function GamesContent({ gameClickHandler }) {
       const gamesSortedByRecent = gamesWithAchievements.sort(
         (game1, game2) => game2.lastPlayed - game1.lastPlayed
       );
-      setGamesFiltered(gamesSortedByRecent.slice(0, 10));
+      setGamesFiltered(gamesSortedByRecent);
     }
   }, [games]);
 
