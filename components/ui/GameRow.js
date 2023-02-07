@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  BRONZE,
+  getIconForTrophyType,
+  GOLD,
+  SILVER,
+} from "../../helpers/gameHelper";
+import { calculateProfileDataForGame } from "../../helpers/profileHelper";
 import { HEADER_IMAGE } from "../../helpers/urlHelper";
 
 const Container = styled.div`
@@ -28,7 +35,7 @@ const Content = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 200px;
+  width: 220px;
   height: 100px;
   display: flex;
   align-items: center;
@@ -37,6 +44,7 @@ const ImageWrapper = styled.div`
 
 const NameWrapper = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
@@ -71,19 +79,79 @@ const Tag = styled.div`
 const PercentageWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
+  height: 100%;
   justify-content: center;
   padding: 1rem 0.5rem;
+`;
+
+const Percentage = styled.div`
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 4rem;
+`;
+
+const PercentageNumber = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+`;
+
+const PercentageSymbol = styled.div`
+  display: flex;
+  align-items: flex-end;
+  font-size: 4rem;
+  justify-content: flex-end;
+`;
+
+const PercentageBarWrapper = styled.div`
+  width: 120px;
+  display: flex;
+  padding-top: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+const PercentageBar = styled.div`
+  width: 120px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #353840;
+  height: 3px;
+  position: relative;
+`;
+
+const PercentageBarInner = styled.div`
+  width: ${(props) => `${props.completion}px`};
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 8px;
+  background-color: #fefefe;
+  height: 3px;
 `;
 
 const TrophyWrapper = styled.div`
   display: flex;
+  width: 420px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem 0.5rem;
 `;
 
+const TrophyNumber = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Image = styled.div`
-  width: 200px;
+  width: 220px;
   height: 100px;
   background: url("${(props) => props.image}");
   background-repeat: no-repeat;
@@ -94,6 +162,34 @@ const Border = styled.div`
   width: 80%;
   height: 1px;
   background-color: #292b2fdd;
+`;
+
+const Trophy = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TrophyIcon = styled.div`
+  display: flex;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  background: url("${(props) => props.icon}");
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-size: 2.5rem;
+`;
+
+const TrophyData = styled.div`
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.1rem;
+  font-size: 2.5rem;
+  height: 60px;
+  justify-content: center;
 `;
 
 export default function GameRow({ game, gameClickHandler }) {
@@ -108,6 +204,15 @@ export default function GameRow({ game, gameClickHandler }) {
     toGet,
     recentRefresh,
   } = game;
+
+  const {
+    profileLevel,
+    totalTrophies,
+    platinumTrophies,
+    goldTrophies,
+    silverTrophies,
+    bronzeTrophies,
+  } = calculateProfileDataForGame(game);
 
   const [gameHovered, setGameHovered] = useState(false);
 
@@ -135,8 +240,34 @@ export default function GameRow({ game, gameClickHandler }) {
           <Name>{name}</Name>
           <Tag>PS5</Tag>
         </NameWrapper>
-        <PercentageWrapper></PercentageWrapper>
-        <TrophyWrapper></TrophyWrapper>
+        <PercentageWrapper>
+          <Percentage>
+            <PercentageNumber>{completion}</PercentageNumber>
+            <PercentageSymbol>%</PercentageSymbol>
+          </Percentage>
+          <PercentageBarWrapper>
+            <PercentageBar>
+              {console.log("LEFT", 100 - completion)}
+              <PercentageBarInner
+                completion={(completion / 100) * 120}
+              ></PercentageBarInner>
+            </PercentageBar>
+          </PercentageBarWrapper>
+        </PercentageWrapper>
+        <TrophyWrapper>
+          <Trophy>
+            <TrophyIcon icon={getIconForTrophyType(GOLD)} />
+            <TrophyData>{goldTrophies}</TrophyData>
+          </Trophy>
+          <Trophy>
+            <TrophyIcon icon={getIconForTrophyType(SILVER)} />
+            <TrophyData>{silverTrophies}</TrophyData>
+          </Trophy>
+          <Trophy>
+            <TrophyIcon icon={getIconForTrophyType(BRONZE)} />
+            <TrophyData>{bronzeTrophies}</TrophyData>
+          </Trophy>
+        </TrophyWrapper>
       </Content>
       <Border></Border>
     </Container>

@@ -56,7 +56,6 @@ const Total = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  font-size: 2rem;
   justify-content: center;
 `;
 
@@ -92,12 +91,14 @@ const TotalTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2.5rem;
   color: #8d9098;
 `;
 
 const TotalData = styled.div`
   display: flex;
   align-items: center;
+  font-size: 2.5rem;
   justify-content: center;
 `;
 
@@ -110,13 +111,14 @@ const TrophyIcon = styled.div`
   background: url("${(props) => props.icon}");
   background-repeat: no-repeat;
   background-size: contain;
+  font-size: 2.5rem;
 `;
 
 const TrophyData = styled.div`
   display: flex;
   align-items: flex-end;
   padding-bottom: 0.1rem;
-  font-size: 2rem;
+  font-size: 2.5rem;
   height: 60px;
   justify-content: center;
 `;

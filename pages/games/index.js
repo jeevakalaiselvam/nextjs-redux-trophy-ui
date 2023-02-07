@@ -17,7 +17,7 @@ const RootContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  animation: ${(props) => (props.gameClicked ? "hide 1s ease" : "")};
+  animation: ${(props) => (props.gameClicked ? "hide 2s ease" : "")};
 
   @keyframes hide {
     0% {
@@ -42,8 +42,8 @@ const BackdropContainer = styled.div`
 const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
-  min-height: 10vh;
-  max-height: 10vh;
+  min-height: 12vh;
+  max-height: 12vh;
   align-items: flex-start;
   justify-content: center;
 `;
@@ -52,8 +52,8 @@ const ContentContainer = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
-  min-height: 85vh;
-  max-height: 85vh;
+  min-height: 86vh;
+  max-height: 86vh;
   margin-top: 5rem;
   overflow: scroll;
   align-items: flex-start;

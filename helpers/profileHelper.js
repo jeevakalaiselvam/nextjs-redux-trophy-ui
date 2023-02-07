@@ -49,6 +49,49 @@ export const calculateProfileData = (games) => {
   };
 };
 
+export const calculateProfileDataForGame = (game) => {
+  let totalPoints = 0;
+  let totalTrophies = 0;
+  let platinumTrophies = 0;
+  let goldTrophies = 0;
+  let silverTrophies = 0;
+  let bronzeTrophies = 0;
+
+  if (game && game.achievements.length > 0) {
+    game.achievements.forEach((achievement) => {
+      if (game.completion == 100) {
+        platinumTrophies++;
+      }
+
+      if (achievement.percentage && achievement.achieved == 1) {
+        let pointsForTrophy = getPointsForAchievementPercentage(
+          achievement.percentage
+        );
+
+        totalPoints = totalPoints + pointsForTrophy;
+
+        if (pointsForTrophy === 90) {
+          goldTrophies++;
+        } else if (pointsForTrophy === 30) {
+          silverTrophies++;
+        } else {
+          bronzeTrophies++;
+        }
+      }
+    });
+  }
+
+  totalTrophies = silverTrophies + bronzeTrophies + goldTrophies;
+
+  return {
+    totalTrophies,
+    platinumTrophies,
+    goldTrophies,
+    silverTrophies,
+    bronzeTrophies,
+  };
+};
+
 export const getPointsForAchievementPercentage = (percentage) => {
   let point = 0;
 
