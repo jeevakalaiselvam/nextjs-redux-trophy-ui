@@ -86,7 +86,6 @@ const Image = styled.div`
   width: 200px;
   height: 100px;
   background: url("${(props) => props.image}");
-  background-color: red;
   background-repeat: no-repeat;
   background-size: cover;
 `;
@@ -97,7 +96,7 @@ const Border = styled.div`
   background-color: #292b2fdd;
 `;
 
-export default function GameRow({ game }) {
+export default function GameRow({ game, gameClickHandler }) {
   const {
     achievements,
     id,
@@ -124,6 +123,9 @@ export default function GameRow({ game }) {
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       gameHovered={gameHovered}
+      onClick={() => {
+        gameClickHandler(id);
+      }}
     >
       <Content>
         <ImageWrapper>

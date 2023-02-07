@@ -16,7 +16,6 @@ const handler = async (req, res) => {
       const gamesResponse = await fetch(FETCH_ALL_GAMES);
       const gamesData = await gamesResponse.json();
       finalGamesResponse = gamesData.response.games.map((game) => {
-        console.log(game);
         const newGame = {
           id: game.appid,
           playtime: game.playtime_forever,

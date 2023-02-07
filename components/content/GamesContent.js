@@ -13,7 +13,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function GamesContent() {
+export default function GamesContent({ gameClickHandler }) {
   const router = useRouter();
   const steamtracker = useSelector((state) => state.steamtracker);
   const { games, settings } = steamtracker;
@@ -21,7 +21,6 @@ export default function GamesContent() {
   const [gamesFiltered, setGamesFiltered] = useState([]);
 
   useEffect(() => {
-    console.log(games);
     if (games.length > 0) {
       const gamesWithAchievements = games.filter(
         (game) => game.achievements && game.achievements.length > 0
@@ -36,7 +35,13 @@ export default function GamesContent() {
   return (
     <Container>
       {gamesFiltered.map((game) => {
-        return <GameRow id={game.id} game={game} />;
+        return (
+          <GameRow
+            id={game.id}
+            game={game}
+            gameClickHandler={gameClickHandler}
+          />
+        );
       })}
     </Container>
   );

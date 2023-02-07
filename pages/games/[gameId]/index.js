@@ -2,10 +2,10 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import GamesContent from "../../components/content/GamesContent";
-import GamesHeader from "../../components/header/GamesHeader";
-import { calculateProfileData } from "../../helpers/profileHelper";
-import { HEADER_IMAGE } from "../../helpers/urlHelper";
+import GameContent from "../../../components/content/GameContent";
+import GameHeader from "../../../components/header/GameHeader";
+import { calculateProfileData } from "../../../helpers/profileHelper";
+import { HEADER_IMAGE } from "../../../helpers/urlHelper";
 
 const RootContainer = styled.div`
   display: flex;
@@ -78,34 +78,14 @@ export default function GamesPage() {
     }
   }, []);
 
-  const [gameClicked, setGameClicked] = useState(false);
-  const [gameIdtoMove, setGameIdtoMove] = useState("");
-
-  const gameClickHandler = (gameId) => {
-    setGameClicked(true);
-    setGameIdtoMove(gameId);
-  };
-
-  useEffect(() => {
-    if (gameClicked) {
-      setTimeout(() => {
-        setGameClicked(false);
-        router.push(`/games/${gameIdtoMove}`);
-      }, 500);
-    }
-  }, [gameClicked]);
-
   return (
-    <RootContainer backgroundImage={backgroundImage} gameClicked={gameClicked}>
+    <RootContainer backgroundImage={backgroundImage}>
       <BackdropContainer>
         <HeaderContainer>
-          <GamesHeader profileData={profileData} />
+          <GameHeader profileData={profileData} />
         </HeaderContainer>
         <ContentContainer>
-          <GamesContent
-            profileData={profileData}
-            gameClickHandler={gameClickHandler}
-          />
+          <GameContent profileData={profileData} />
         </ContentContainer>
       </BackdropContainer>
     </RootContainer>

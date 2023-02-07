@@ -11,6 +11,7 @@ body {
   font-family: "Noto Sans", sans-serif;
   font-weight: 300;
   color: #d8d8e3;
+  background-color: #000;
 }
 
 select,

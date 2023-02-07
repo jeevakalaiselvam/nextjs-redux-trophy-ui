@@ -12,7 +12,6 @@ export const calculateProfileData = (games) => {
   games &&
     games.length &&
     games.forEach((game) => {
-      console.log(game);
       game &&
         game.achievements &&
         game.achievements.forEach((achievement) => {
