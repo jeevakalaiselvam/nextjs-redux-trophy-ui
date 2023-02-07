@@ -41,10 +41,11 @@ const ContentContainer = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
-  min-height: 90vh;
-  max-height: 90vh;
+  min-height: 85vh;
+  max-height: 85vh;
+  margin-top: 5rem;
+  overflow: scroll;
   align-items: flex-start;
-  padding: 2rem;
   justify-content: center;
 `;
 
