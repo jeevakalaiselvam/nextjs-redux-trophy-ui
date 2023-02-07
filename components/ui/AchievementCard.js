@@ -11,6 +11,7 @@ import { getIconTypeForPercentage } from "../../helpers/profileHelper";
 
 const Container = styled.div`
   width: 90%;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -57,7 +58,7 @@ const Title = styled.div`
   padding: 1rem 1rem;
   align-content: flex-start;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   justify-content: flex-start;
 `;
 
@@ -172,11 +173,33 @@ const End = styled.div`
 
 const UnlockTimeWrapper = styled.div`
   display: flex;
-  padding: 0rem 1rem;
+  padding: 2rem 1rem;
+  flex-direction: row;
+  align-content: flex-start;
+  justify-content: center;
+  min-height: 100%;
+`;
+
+const UnlockIcon = styled.div`
+  display: flex;
   flex-direction: column;
-  height: 100%;
+  width: 30px;
+  height: 30px;
+  background: url("/unlockIcon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   align-content: center;
   justify-content: center;
+`;
+
+const Unlocktime = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-left: 0.5rem;
+  align-content: center;
+  justify-content: flex-start;
+  font-size: 2rem;
 `;
 
 const Divider = styled.div`
@@ -200,7 +223,15 @@ const DescriptionWrapper = styled.div`
 `;
 
 export default function AchievementCard({ achievement }) {
-  const { name, displayName, description, icon, percentage } = achievement;
+  const {
+    name,
+    displayName,
+    description,
+    icon,
+    percentage,
+    achieved,
+    unlocktime,
+  } = achievement;
 
   const trophyType = getIconTypeForPercentage(percentage);
 
@@ -230,7 +261,23 @@ export default function AchievementCard({ achievement }) {
           </RarityWrapper>
         </Meta>
       </DataWrapper>
-      <UnlockTimeWrapper></UnlockTimeWrapper>
+      <UnlockTimeWrapper>
+        <UnlockIcon></UnlockIcon>
+        <Unlocktime>
+          {achieved == 1
+            ? `${new Date(unlocktime * 1000)
+                .toString()
+                .slice(0, -40)}, ${new Date(unlocktime * 1000).toLocaleString(
+                "en-US",
+                {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                }
+              )}`
+            : ""}
+        </Unlocktime>
+      </UnlockTimeWrapper>
       <Divider></Divider>
       <DescriptionWrapper></DescriptionWrapper>
     </Container>
