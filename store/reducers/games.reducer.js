@@ -21,7 +21,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case FETCH_ALL_GAMES_SUCCESS:
       return {
         ...state,
-        games: payload,
+        games: addPointsForAchievementsInGames(payload),
       };
     case FETCH_ALL_GAMES_ERROR:
       return {
