@@ -2,6 +2,7 @@ export const calculateProfileData = (games) => {
   let profileLevel = 0;
   let totalPoints = 0;
   let totalTrophies = 0;
+  let platinumTrophies = 0;
   let goldTrophies = 0;
   let silverTrophies = 0;
   let bronzeTrophies = 0;
@@ -15,6 +16,10 @@ export const calculateProfileData = (games) => {
       game &&
         game.achievements &&
         game.achievements.forEach((achievement) => {
+          if (game.completion == 100) {
+            platinumTrophies++;
+          }
+
           if (achievement.percentage && achievement.achieved == 1) {
             let pointsForTrophy = getPointsForAchievementPercentage(
               achievement.percentage
@@ -32,12 +37,13 @@ export const calculateProfileData = (games) => {
         });
     });
 
-  profileLevel = calculateProfileLevelFromPoints(totalPoints);
+  profileLevel = calculateProfileLevelFromPoints(totalPoints).level;
   totalTrophies = silverTrophies + bronzeTrophies + goldTrophies;
 
   return {
     profileLevel,
     totalTrophies,
+    platinumTrophies,
     goldTrophies,
     silverTrophies,
     bronzeTrophies,
@@ -138,9 +144,7 @@ const calculateProfileLevelFromPoints = (points) => {
     remainingPoints: points,
   };
 
-  console.log("BEFORE", levelInfo);
   calculateLevelRecursive(levelInfo);
-  console.log("AFTER", levelInfo);
 
-  return "10";
+  return levelInfo;
 };

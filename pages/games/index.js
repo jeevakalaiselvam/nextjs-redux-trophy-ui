@@ -41,7 +41,10 @@ const ContentContainer = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
+  min-height: 90vh;
+  max-height: 90vh;
   align-items: flex-start;
+  padding: 2rem;
   justify-content: center;
 `;
 
