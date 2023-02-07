@@ -1,3 +1,5 @@
+import { BRONZE, GOLD, SILVER } from "./gameHelper";
+
 export const calculateProfileData = (games) => {
   let profileLevel = 0;
   let totalPoints = 0;
@@ -188,4 +190,24 @@ const calculateProfileLevelFromPoints = (points) => {
   calculateLevelRecursive(levelInfo);
 
   return levelInfo;
+};
+
+export const getIconTypeForPercentage = (percentage) => {
+  let point = 0;
+
+  if (percentage <= 10) {
+    point = 90;
+  } else if (percentage > 10 && percentage <= 50) {
+    point = 30;
+  } else {
+    point = 15;
+  }
+
+  if (point === 90) {
+    return GOLD;
+  } else if (point === 30) {
+    return SILVER;
+  } else {
+    return BRONZE;
+  }
 };

@@ -46,3 +46,40 @@ export const getIconForTrophyType = (type) => {
       return "bronzeNew.png";
   }
 };
+
+export const getRarityIcon = (percentage) => {
+  if (percentage <= 1) {
+    return "rarity.png";
+  } else if (percentage > 1 && percentage <= 10) {
+    return "rarity.png";
+  } else if (percentage > 10 && percentage <= 25) {
+    return "rarity.png";
+  } else {
+    return "rarity.png";
+  }
+};
+
+export const getTrophyNameForType = (type) => {
+  switch (type) {
+    case PLATINUM:
+      return "Platinum";
+    case GOLD:
+      return "Gold";
+    case SILVER:
+      return "Silver";
+    case BRONZE:
+      return "Bronze";
+  }
+};
+
+export const getRarityTitle = (percentage) => {
+  if (percentage <= 1) {
+    return "Ultra Rare";
+  } else if (percentage > 1 && percentage <= 10) {
+    return "Rare";
+  } else if (percentage > 10 && percentage <= 25) {
+    return "Uncommon";
+  } else {
+    return "Common";
+  }
+};

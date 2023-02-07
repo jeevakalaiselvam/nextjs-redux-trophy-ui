@@ -52,7 +52,7 @@ const ContentContainer = styled.div`
   min-height: 85vh;
   max-height: 85vh;
   margin-top: 5rem;
-  overflow: scroll;
+  overflow: hidden;
   align-items: flex-start;
   justify-content: center;
 `;
