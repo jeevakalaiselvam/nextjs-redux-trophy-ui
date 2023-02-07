@@ -63,10 +63,7 @@ export default function GamesPage() {
   const steamtracker = useSelector((state) => state.steamtracker);
   const { games, settings } = steamtracker;
 
-  let pointAddedToAchievementsInGames = addPointsForAchievementsInGames(
-    games.sort((game1, game2) => game2.lastPlayed - game1.lastPlayed)
-  );
-  const profileData = calculateProfileData(pointAddedToAchievementsInGames);
+  const profileData = calculateProfileData(games);
 
   const [gameClicked, setGameClicked] = useState(false);
   const [gameIdtoMove, setGameIdtoMove] = useState("");

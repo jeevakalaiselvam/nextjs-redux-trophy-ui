@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import {
@@ -101,18 +101,26 @@ export default function GameHeader() {
   const steamtracker = useSelector((state) => state.steamtracker);
   const { games, settings } = steamtracker;
 
-  const gameId = router.query.gameId;
+  const [gameId, setGameId] = useState("");
+  const [game, setGame] = useState("");
+  const [profileData, setProfileData] = useState({});
 
-  const game = games.length > 0 && games.find((game) => game.id == gameId);
+  useEffect(() => {
+    const gameId = router.query.gameId;
+    if (gameId) {
+      setGameId(gameId);
+    }
+  }, [router.query.gameId]);
 
-  const {
-    profileLevel,
-    totalTrophies,
-    platinumTrophies,
-    goldTrophies,
-    silverTrophies,
-    bronzeTrophies,
-  } = calculateProfileDataForGame(game);
+  useEffect(() => {
+    const game = games.length > 0 && games.find((game) => game.id == gameId);
+    setGame(game);
+  }, [gameId]);
+
+  useEffect(() => {
+    const profileData = calculateProfileDataForGame(game);
+    setProfileData(profileData);
+  }, [game]);
 
   return (
     <Container>
@@ -139,15 +147,15 @@ export default function GameHeader() {
           <TrophyWrapper>
             <Trophy>
               <TrophyIcon icon={getIconForTrophyType(GOLD)} />
-              <TrophyData>{goldTrophies}</TrophyData>
+              <TrophyData>{profileData.goldTrophies}</TrophyData>
             </Trophy>
             <Trophy>
               <TrophyIcon icon={getIconForTrophyType(SILVER)} />
-              <TrophyData>{silverTrophies}</TrophyData>
+              <TrophyData>{profileData.silverTrophies}</TrophyData>
             </Trophy>
             <Trophy>
               <TrophyIcon icon={getIconForTrophyType(BRONZE)} />
-              <TrophyData>{bronzeTrophies}</TrophyData>
+              <TrophyData>{profileData.bronzeTrophies}</TrophyData>
             </Trophy>
           </TrophyWrapper>
         </RightContainer>

@@ -55,20 +55,26 @@ export default function GameContent() {
   const steamtracker = useSelector((state) => state.steamtracker);
   const { games, settings } = steamtracker;
 
-  const gameId = router.query.gameId;
+  const [gameId, setGameId] = useState("");
+  const [game, setGame] = useState("");
+  const [profileData, setProfileData] = useState({});
 
-  const game = games.length > 0 && games.find((game) => game.id == gameId);
+  useEffect(() => {
+    const gameId = router.query.gameId;
+    if (gameId) {
+      setGameId(gameId);
+    }
+  }, [router.query.gameId]);
 
-  const { achievements } = game;
+  useEffect(() => {
+    const game = games.length > 0 && games.find((game) => game.id == gameId);
+    setGame(game);
+  }, [gameId]);
 
-  const {
-    profileLevel,
-    totalTrophies,
-    platinumTrophies,
-    goldTrophies,
-    silverTrophies,
-    bronzeTrophies,
-  } = calculateProfileDataForGame(game);
+  useEffect(() => {
+    const profileData = calculateProfileDataForGame(game);
+    setProfileData(profileData);
+  }, [game]);
 
   return (
     <Container>

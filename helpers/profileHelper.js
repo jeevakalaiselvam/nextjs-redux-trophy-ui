@@ -15,7 +15,6 @@ export const calculateProfileData = (games) => {
     games.length &&
     games.forEach((game) => {
       let gamePoints = 0;
-      console.log(`-------------- FOR GAME ${game.name}`);
       if (game.completion == 100) {
         platinumTrophies++;
       }
@@ -24,22 +23,18 @@ export const calculateProfileData = (games) => {
         game.achievements.forEach((achievement) => {
           gamePoints += achievement.points;
           if (achievement.percentage && achievement.achieved == 1) {
-            let pointsForTrophy = getPointsForAchievementPercentage(
-              achievement.percentage
-            );
+            let pointsForTrophy = achievement.points;
             totalPoints = totalPoints + pointsForTrophy;
 
-            if (pointsForTrophy === 90) {
+            if (pointsForTrophy <= 10) {
               goldTrophies++;
-            } else if (pointsForTrophy === 30) {
+            } else if (pointsForTrophy > 10 && pointsForTrophy <= 50) {
               silverTrophies++;
             } else {
               bronzeTrophies++;
             }
           }
         });
-
-      console.log("TOTAL POINTS", gamePoints);
     });
 
   profileLevel = calculateProfileLevelFromPoints(totalPoints).level;
@@ -70,15 +65,13 @@ export const calculateProfileDataForGame = (game) => {
       }
 
       if (achievement.percentage && achievement.achieved == 1) {
-        let pointsForTrophy = getPointsForAchievementPercentage(
-          achievement.percentage
-        );
+        let pointsForTrophy = achievement.points;
 
         totalPoints = totalPoints + pointsForTrophy;
 
-        if (pointsForTrophy === 90) {
+        if (pointsForTrophy <= 10) {
           goldTrophies++;
-        } else if (pointsForTrophy === 30) {
+        } else if (pointsForTrophy > 10 && pointsForTrophy <= 50) {
           silverTrophies++;
         } else {
           bronzeTrophies++;
@@ -96,20 +89,6 @@ export const calculateProfileDataForGame = (game) => {
     silverTrophies,
     bronzeTrophies,
   };
-};
-
-export const getPointsForAchievementPercentage = (percentage) => {
-  let point = 0;
-
-  if (percentage <= 10) {
-    point = 90;
-  } else if (percentage > 10 && percentage <= 50) {
-    point = 30;
-  } else {
-    point = 15;
-  }
-
-  return point;
 };
 
 const calculateLevelRecursive = (levelInfo) => {
@@ -197,20 +176,10 @@ const calculateProfileLevelFromPoints = (points) => {
   return levelInfo;
 };
 
-export const getIconTypeForPercentage = (percentage) => {
-  let point = 0;
-
-  if (percentage <= 10) {
-    point = 90;
-  } else if (percentage > 10 && percentage <= 50) {
-    point = 30;
-  } else {
-    point = 15;
-  }
-
-  if (point === 90) {
+export const getIconTypeForPercentage = (point) => {
+  if (point <= 10) {
     return GOLD;
-  } else if (point === 30) {
+  } else if (point > 10 && point <= 50) {
     return SILVER;
   } else {
     return BRONZE;

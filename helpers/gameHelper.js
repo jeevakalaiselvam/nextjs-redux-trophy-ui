@@ -1,5 +1,3 @@
-import { getPointsForAchievementPercentage } from "./profileHelper";
-
 export const addPointsForAchievementsInGames = (games) => {
   console.clear();
   let newGames = [];
@@ -8,6 +6,8 @@ export const addPointsForAchievementsInGames = (games) => {
     let newGame = { ...game };
     let newAchievements = [];
     let totalPercentage = 0;
+
+    let totalPoints = 0;
 
     game.achievements.forEach((achievement) => {
       totalPercentage = totalPercentage + achievement.percentage;
@@ -18,13 +18,27 @@ export const addPointsForAchievementsInGames = (games) => {
       let currentPoint =
         (1350 * Math.floor(achievement.percentage)) / totalPercentage;
       newAchievement.points = Math.floor(currentPoint);
+      totalPoints += newAchievement.points;
+
+      if (newAchievement.points <= 10) {
+        newAchievement.type = GOLD;
+      } else if (newAchievement.points > 10 && newAchievement.points <= 50) {
+        newAchievement.type = SILVER;
+      } else {
+        newAchievement.type = BRONZE;
+      }
+
       newAchievements.push(newAchievement);
     });
-    newGame = { ...newGame, achievements: newAchievements };
+    newGame = {
+      ...newGame,
+      achievements: newAchievements,
+      totalPoints: totalPoints,
+    };
+    console.log("JEEVA - TOTAL POINTS", game.name, totalPoints);
     newGames.push(newGame);
   });
-  console.log("NEW GAMES", { newGames });
-  return newGames;
+  return newGames.sort((game1, game2) => game2.lastPlayed - game1.lastPlayed);
 };
 
 export const getTrophyIconForLevel = (level) => {
