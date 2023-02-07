@@ -22,9 +22,7 @@ export const calculateProfileData = (games) => {
       game &&
         game.achievements &&
         game.achievements.forEach((achievement) => {
-          gamePoints += getPointsForAchievementPercentage(
-            achievement.percentage
-          );
+          gamePoints += achievement.points;
           if (achievement.percentage && achievement.achieved == 1) {
             let pointsForTrophy = getPointsForAchievementPercentage(
               achievement.percentage

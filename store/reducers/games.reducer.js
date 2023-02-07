@@ -1,4 +1,4 @@
-import { sortGamesByRecent } from "../../helpers/gameHelper";
+import { addPointsForAchievementsInGames } from "../../helpers/gameHelper";
 import {
   FETCH_ALL_GAMES_ERROR,
   FETCH_ALL_GAMES_REQUEST,
@@ -21,7 +21,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case FETCH_ALL_GAMES_SUCCESS:
       return {
         ...state,
-        games: sortGamesByRecent(payload),
+        games: payload,
       };
     case FETCH_ALL_GAMES_ERROR:
       return {

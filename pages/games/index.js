@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GamesContent from "../../components/content/GamesContent";
 import GamesHeader from "../../components/header/GamesHeader";
+import { addPointsForAchievementsInGames } from "../../helpers/gameHelper";
 import { calculateProfileData } from "../../helpers/profileHelper";
 import { HEADER_IMAGE } from "../../helpers/urlHelper";
 
@@ -62,7 +63,10 @@ export default function GamesPage() {
   const steamtracker = useSelector((state) => state.steamtracker);
   const { games, settings } = steamtracker;
 
-  const profileData = calculateProfileData(games);
+  let pointAddedToAchievementsInGames = addPointsForAchievementsInGames(
+    games.sort((game1, game2) => game2.lastPlayed - game1.lastPlayed)
+  );
+  const profileData = calculateProfileData(pointAddedToAchievementsInGames);
 
   const [gameClicked, setGameClicked] = useState(false);
   const [gameIdtoMove, setGameIdtoMove] = useState("");

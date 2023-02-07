@@ -1,5 +1,30 @@
-export const sortGamesByRecent = (games) => {
-  return games;
+import { getPointsForAchievementPercentage } from "./profileHelper";
+
+export const addPointsForAchievementsInGames = (games) => {
+  console.clear();
+  let newGames = [];
+
+  games.forEach((game) => {
+    let newGame = { ...game };
+    let newAchievements = [];
+    let totalPercentage = 0;
+
+    game.achievements.forEach((achievement) => {
+      totalPercentage = totalPercentage + achievement.percentage;
+    });
+
+    game.achievements.forEach((achievement) => {
+      let newAchievement = { ...achievement };
+      let currentPoint =
+        (1350 * Math.floor(achievement.percentage)) / totalPercentage;
+      newAchievement.points = Math.floor(currentPoint);
+      newAchievements.push(newAchievement);
+    });
+    newGame = { ...newGame, achievements: newAchievements };
+    newGames.push(newGame);
+  });
+  console.log("NEW GAMES", { newGames });
+  return newGames;
 };
 
 export const getTrophyIconForLevel = (level) => {
