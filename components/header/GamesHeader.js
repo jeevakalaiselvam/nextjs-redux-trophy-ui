@@ -14,7 +14,7 @@ import { calculateProfileData } from "../../helpers/profileHelper";
 const Container = styled.div`
   min-width: 100%;
   display: flex;
-  padding: 5rem 1rem 1rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   align-items: center;
   justify-content: center;
 `;
@@ -39,6 +39,7 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   font-size: 50px;
   font-weight: 300;
   color: #fefefecc;
@@ -72,7 +73,7 @@ const LevelIcon = styled.div`
   width: 55px;
   height: 55px;
   justify-content: center;
-  background: url("${(props) => props.iconSource}");
+  background: url("/${(props) => props.iconSource}");
   background-repeat: no-repeat;
   background-size: contain;
 `;
@@ -108,7 +109,7 @@ const TrophyIcon = styled.div`
   width: 80px;
   height: 80px;
   justify-content: center;
-  background: url("${(props) => props.icon}");
+  background: url("/${(props) => props.icon}");
   background-repeat: no-repeat;
   background-size: contain;
   font-size: 2.5rem;

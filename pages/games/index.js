@@ -11,9 +11,6 @@ const RootContainer = styled.div`
   display: flex;
   min-width: 100vw;
   min-height: 100vh;
-  background: url("background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
   align-items: center;
   justify-content: center;
 
@@ -67,17 +64,6 @@ export default function GamesPage() {
 
   const profileData = calculateProfileData(games);
 
-  const [backgroundImage, setBackgroundImage] = useState("");
-
-  useEffect(() => {
-    if (!Object.keys(games).length > 0) {
-      router.push("/");
-    } else {
-      const randomGameId = games[Math.floor(Math.random() * games.length)].id;
-      setBackgroundImage(HEADER_IMAGE("677160"));
-    }
-  }, []);
-
   const [gameClicked, setGameClicked] = useState(false);
   const [gameIdtoMove, setGameIdtoMove] = useState("");
 
@@ -96,7 +82,7 @@ export default function GamesPage() {
   }, [gameClicked]);
 
   return (
-    <RootContainer backgroundImage={backgroundImage} gameClicked={gameClicked}>
+    <RootContainer gameClicked={gameClicked}>
       <BackdropContainer>
         <HeaderContainer>
           <GamesHeader profileData={profileData} />

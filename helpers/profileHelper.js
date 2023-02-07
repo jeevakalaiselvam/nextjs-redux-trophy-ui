@@ -12,13 +12,12 @@ export const calculateProfileData = (games) => {
   games &&
     games.length &&
     games.forEach((game) => {
+      if (game.completion == 100) {
+        platinumTrophies++;
+      }
       game &&
         game.achievements &&
         game.achievements.forEach((achievement) => {
-          if (game.completion == 100) {
-            platinumTrophies++;
-          }
-
           if (achievement.percentage && achievement.achieved == 1) {
             let pointsForTrophy = getPointsForAchievementPercentage(
               achievement.percentage

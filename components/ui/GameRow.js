@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   BRONZE,
   getIconForTrophyType,
   GOLD,
+  PLATINUM,
   SILVER,
 } from "../../helpers/gameHelper";
 import { calculateProfileDataForGame } from "../../helpers/profileHelper";
 import { HEADER_IMAGE } from "../../helpers/urlHelper";
+import PercentageBar from "./PercentageBar";
 
 const Container = styled.div`
   display: flex;
@@ -76,66 +78,6 @@ const Tag = styled.div`
   border: 2px solid #b5b0b1;
 `;
 
-const PercentageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  padding: 1rem 0.5rem;
-`;
-
-const Percentage = styled.div`
-  width: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 4rem;
-`;
-
-const PercentageNumber = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-`;
-
-const PercentageSymbol = styled.div`
-  display: flex;
-  align-items: flex-end;
-  font-size: 4rem;
-  justify-content: flex-end;
-`;
-
-const PercentageBarWrapper = styled.div`
-  width: 120px;
-  display: flex;
-  padding-top: 1rem;
-  align-items: flex-start;
-  justify-content: center;
-`;
-
-const PercentageBar = styled.div`
-  width: 120px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background-color: #353840;
-  height: 3px;
-  position: relative;
-`;
-
-const PercentageBarInner = styled.div`
-  width: ${(props) => `${props.completion}px`};
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 8px;
-  background-color: #fefefe;
-  height: 3px;
-`;
-
 const TrophyWrapper = styled.div`
   display: flex;
   width: 420px;
@@ -164,6 +106,25 @@ const Border = styled.div`
   background-color: #292b2fdd;
 `;
 
+const TrophyPlatinum = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const TrophyPlatinumIcon = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  justify-content: center;
+  background: url("/${(props) => props.icon}");
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-size: 3rem;
+`;
+
 const Trophy = styled.div`
   display: flex;
   flex: 1;
@@ -177,7 +138,7 @@ const TrophyIcon = styled.div`
   width: 55px;
   height: 55px;
   justify-content: center;
-  background: url("${(props) => props.icon}");
+  background: url("/${(props) => props.icon}");
   background-repeat: no-repeat;
   background-size: contain;
   font-size: 2.5rem;
@@ -216,6 +177,15 @@ export default function GameRow({ game, gameClickHandler }) {
 
   const [gameHovered, setGameHovered] = useState(false);
 
+  useEffect(() => {
+    if (gameHovered) {
+      const timeReference = setTimeout(() => {}, 50);
+      return () => {
+        clearTimeout(timeReference);
+      };
+    }
+  }, [gameHovered]);
+
   const mouseEnterHandler = () => {
     setGameHovered(true);
   };
@@ -228,7 +198,13 @@ export default function GameRow({ game, gameClickHandler }) {
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       gameHovered={gameHovered}
-      onClick={() => {
+      onClickCapture={() => {
+        try {
+          let audio = new Audio("buttonPress.mp3");
+          if (audio) {
+            audio.play();
+          }
+        } catch (e) {}
         gameClickHandler(id);
       }}
     >
@@ -240,20 +216,13 @@ export default function GameRow({ game, gameClickHandler }) {
           <Name>{name}</Name>
           <Tag>PS5</Tag>
         </NameWrapper>
-        <PercentageWrapper>
-          <Percentage>
-            <PercentageNumber>{completion}</PercentageNumber>
-            <PercentageSymbol>%</PercentageSymbol>
-          </Percentage>
-          <PercentageBarWrapper>
-            <PercentageBar>
-              {console.log("LEFT", 100 - completion)}
-              <PercentageBarInner
-                completion={(completion / 100) * 120}
-              ></PercentageBarInner>
-            </PercentageBar>
-          </PercentageBarWrapper>
-        </PercentageWrapper>
+        {completion == 100 && (
+          <TrophyPlatinum>
+            <TrophyPlatinumIcon icon={getIconForTrophyType(PLATINUM)} />
+          </TrophyPlatinum>
+        )}
+
+        <PercentageBar completion={completion} />
         <TrophyWrapper>
           <Trophy>
             <TrophyIcon icon={getIconForTrophyType(GOLD)} />
